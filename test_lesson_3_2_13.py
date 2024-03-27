@@ -1,25 +1,22 @@
-from typing_extensions import Self
-from unittest import TestCase
-from unittest import main as unittest_main
+from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
 RESULT = "Congratulations! You have successfully registered!"
 
-class Test(TestCase):
-    def test1(self: Self) -> None:
-        result = test("http://suninjuly.github.io/registration1.html")
-        self.assertEqual(result, RESULT)
+def test1() -> None:
+    result = __test("http://suninjuly.github.io/registration1.html")
+    assert result == RESULT
 
 
-    def test2(self: Self) -> None:
-        result = test("http://suninjuly.github.io/registration2.html")
-        self.assertEqual(result, RESULT)
+def test2() -> None:
+    result = __test("http://suninjuly.github.io/registration2.html")
+    assert result == RESULT
         
 
 
-def test(link: str) -> str:
+def __test(link: str) -> Optional[str]:
     try: 
         browser = webdriver.Chrome()
         browser.get(link)
@@ -48,12 +45,12 @@ def test(link: str) -> str:
         welcome_text = welcome_text_elt.text
 
         return welcome_text
+    
+    except Exception as exp:
+        return None
 
     finally:
         # ожидание чтобы визуально оценить результаты прохождения скрипта
         time.sleep(1)
         # закрываем браузер после всех манипуляций
         browser.quit()
-
-if __name__ == "__main__":
-    unittest_main()
